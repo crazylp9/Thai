@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Host</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/dataTables.bootstrap4.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        
+        <div class="content-wrapper">
+            <div id="nav"></div>
+            <style>
+                .title_border-radius{
+                    border-radius: 5px 5px 0 0;
+                }
+
+                .content_border-radius{
+                    border-radius: 0 0 5px 5px;
+                }
+
+
+                .btn_style {
+                    background: #3498db;
+                    color: white;
+                    padding: 5px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                }
+                .page-link {
+                    color:#3498db;
+                }
+                .page-item.active .page-link {
+                    background-color: #3498db;
+                    border-color: #3498db;
+                }
+                .btn_cancel{
+                    background-color: red;
+                    color: white;
+                    width: 6rem;
+                }
+                .btn_save{
+                    background-color: #3498db;
+                    color: white;
+                    width: 6rem;
+                }
+                #matchTable {
+                    table-layout: auto; /* 允許自動調整 */
+                    width: 100%;        /* 避免固定寬度 */
+                }
+
+                td, th {
+                    white-space: nowrap; /* 避免換行 */
+                }
+            </style>
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="m-0">Match / History</h1>
+                            <div class="mt-3" style="width: 100%; height: 2px; background-color: black;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid px-3">
+                <section class="content">
+                    <div class="">
+                        <div class="bg-white shadow content_border-radius">
+                            <div class="bg-blue title_border-radius pl-2 fw-bold">Search Information</div>
+                            <form>
+                                <div class="row justify-content-end p-2">
+
+                                    <div class="col-12">
+                                        <div class="d-flex flex-column">
+                                            <span class="fs-6 my-2">Match Time</span>
+                                            <div class="input-group date w-100" id="start_time" data-target-input="nearest" style="border-radius: 10px;">
+                                                <div class="input-group-append" data-target="#start_time" data-toggle="datetimepicker">
+                                                    <div class="input-group-text" style="border-radius: 10px 0 0 10px;"><i class="fa-regular fa-clock"></i></div>
+                                                </div>
+                                                <input style="border-radius: 0 10px 10px 0;" type="text" class="form-control datetimepicker-input" data-target="#start_time" placeholder="01-11-2024 ~ 11-11-2024"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-6">
+                                        <div class="d-flex flex-column">
+                                            <span class="fs-6 my-2">Match No.</span>
+                                            <div class="input-group w-100" data-target-input="nearest">
+                                                <input type="text" class="form-control"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="d-flex flex-column">
+                                            <span class="fs-6 my-2">Fighter</span>
+                                            <div class="input-group w-100" data-target-input="nearest">
+                                                <input type="text" class="form-control"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="d-flex flex-column">
+                                            <span class="fs-6 my-2">Boxing Gym</span>
+                                            <div class="input-group w-100" data-target-input="nearest">
+                                                <input type="text" class="form-control"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 d-flex align-items-end justify-content-center">
+                                        <button type="submit" class="btn btn_style float-right shadow w-auto" style="height: fit-content;">Search</button>
+                                    </div>
+                                    
+                                </div>
+                                
+                            </form>
+                        </div>
+
+                        
+
+
+
+
+
+                        
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Host / New Host</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row justify-content-end">
+                                            <div class="col-12">
+                                                <div class="form-group d-flex justify-content-between">
+                                                    <span class="fs-6 col-5">Agent Name</span>
+                                                    <div class="input-group w-75">
+                                                        <input type="text" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group d-flex justify-content-between">
+                                                    <span class="fs-6 col-5">Account</span>
+                                                    <div class="input-group w-75">
+                                                        <input type="text" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-12">
+                                                <div class="form-group d-flex justify-content-between">
+                                                    <span class="fs-6 col-5">Password</span>
+                                                    <div class="input-group w-75">
+                                                        <input type="text" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-12">
+                                                <div class="form-group d-flex justify-content-between">
+                                                    <span class="fs-6 col-5">Phone Number</span>
+                                                    <div class="input-group w-75">
+                                                        <input type="text" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-12">
+                                                <div class="form-group d-flex justify-content-between">
+                                                    <span class="fs-6 col-5">Bank Name</span>
+                                                    <div class="input-group w-75">
+                                                        <input type="text" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-12">
+                                                <div class="form-group d-flex justify-content-between">
+                                                    <span class="fs-6 col-5">Bank Account</span>
+                                                    <div class="input-group w-75">
+                                                        <input type="text" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-12">
+                                                <div class="form-group d-flex justify-content-between">
+                                                    <span class="fs-6 col-5">Bank Account Name</span>
+                                                    <div class="input-group w-75">
+                                                        <input type="text" class="form-control"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+    
+                                            
+                                            <div class="col-12">
+                                                <div class="form-group d-flex justify-content-between">
+                                                    <span class="fs-6 col-5">Status</span>
+                                                    <select class="form-control w-75">
+                                                        <option>Choose Status</option>
+                                                        <option>Active</option>
+                                                        <option>Deactived</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer mx-auto">
+                                        <button type="button" class="btn shadow btn_cancel" data-bs-dismiss="modal"><i class="fas fa-times"></i> Cancel</button>
+                                        <button type="button" class="btn shadow btn_save"><i class="fas fa-save"></i> Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive p-0 mt-3 bg-white shadow  content_border-radius">
+                            <div class="bg-blue title_border-radius pl-2 fw-bold">Data List</div>
+                            <div class="p-2 overflow-auto" style="height: 240px;">
+                                <table id="matchTable" class="table table-hover table-bordered bg-white" style="border-color: #3498db; border-radius: 5px;">
+                                    <thead>
+                                        <tr>
+                                            <th>Winner</th>
+                                            <th>Mathch No</th>
+                                            <th>Match Time</th>
+                                            <th>Red Fighter</th>
+                                            <th>Red Boxing Gym</th>
+                                            <th>Blue Fighter</th>
+                                            <th>Blue Boxing Gym</th>
+                                            <th>Agent Num</th>
+                                            <th>Status</th>
+                                            <th>Create Time</th>
+                                            <th>Operation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Red</td>
+                                            <td>202410130001</td>
+                                            <td>13-10-2024 20:00:00</td>
+                                            <td>วรพล</td>
+                                            <td>ค่ายมวยเทพประทาน</td>
+                                            <td>นันทนา</td>
+                                            <td>ค่ายมวยหมัดหนัก</td>
+                                            <td>8</td>
+                                            <td>Finish</td>
+                                            <td>06-10-2024 02:43:20</td>
+                                            <td><button class="btn btn_style shadow"><i class="fas fa-hand-rock"></i>Detail</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blue</td>
+                                            <td>202410180001</td>
+                                            <td>18-10-2024 21:30:00</td>
+                                            <td>ธนพล</td>
+                                            <td>ค่ายมวยศรัทธา</td>
+                                            <td>ศิริพร</td>
+                                            <td>ค่ายมวยก้องฟ้า</td>
+                                            <td>5</td>
+                                            <td>Finish</td>
+                                            <td>14-10-2024 06:04:54</td>
+                                            <td><button class="btn btn_style shadow"><i class="fas fa-hand-rock"></i>Detail</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blue</td>
+                                            <td>202410180001</td>
+                                            <td>18-10-2024 21:30:00</td>
+                                            <td>ธนพล</td>
+                                            <td>ค่ายมวยศรัทธา</td>
+                                            <td>ศิริพร</td>
+                                            <td>ค่ายมวยก้องฟ้า</td>
+                                            <td>5</td>
+                                            <td>Finish</td>
+                                            <td>14-10-2024 06:04:54</td>
+                                            <td><button class="btn btn_style shadow"><i class="fas fa-hand-rock"></i>Detail</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blue</td>
+                                            <td>202410180001</td>
+                                            <td>18-10-2024 21:30:00</td>
+                                            <td>ธนพล</td>
+                                            <td>ค่ายมวยศรัทธา</td>
+                                            <td>ศิริพร</td>
+                                            <td>ค่ายมวยก้องฟ้า</td>
+                                            <td>5</td>
+                                            <td>Finish</td>
+                                            <td>14-10-2024 06:04:54</td>
+                                            <td><button class="btn btn_style shadow"><i class="fas fa-hand-rock"></i>Detail</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blue</td>
+                                            <td>202410180001</td>
+                                            <td>18-10-2024 21:30:00</td>
+                                            <td>ธนพล</td>
+                                            <td>ค่ายมวยศรัทธา</td>
+                                            <td>ศิริพร</td>
+                                            <td>ค่ายมวยก้องฟ้า</td>
+                                            <td>5</td>
+                                            <td>Finish</td>
+                                            <td>14-10-2024 06:04:54</td>
+                                            <td><button class="btn btn_style shadow"><i class="fas fa-hand-rock"></i>Detail</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Blue</td>
+                                            <td>202410180001</td>
+                                            <td>18-10-2024 21:30:00</td>
+                                            <td>ธนพล</td>
+                                            <td>ค่ายมวยศรัทธา</td>
+                                            <td>ศิริพร</td>
+                                            <td>ค่ายมวยก้องฟ้า</td>
+                                            <td>5</td>
+                                            <td>Finish</td>
+                                            <td>14-10-2024 06:04:54</td>
+                                            <td><button class="btn btn_style shadow"><i class="fas fa-hand-rock"></i>Detail</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <div class="d-flex justify-content-center py-3">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div id="footer"></div>
+        </div>
+    </div>
+    <script>
+                
+        $(document).ready(function() {
+            $("#nav").load("nav.html");
+            $("#footer").load("footer.html");
+
+            $('#matchTable').DataTable({
+                "order": [], 
+                "columnDefs": [
+                    { "orderable": false, "targets": [] }
+                ],
+                "paging": false,
+                "searching": false,
+                "info": false,
+                "autoWidth": false
+            });
+        });
+        $(function () {
+            $('#start_time, #end_time').datetimepicker({
+                format: 'YYYY/MM/DD',
+                icons: {
+                    time: 'far fa-clock',
+                    date: 'far fa-calendar',
+                    up: 'fas fa-arrow-up',
+                    down: 'fas fa-arrow-down',
+                    previous: 'fas fa-chevron-left',
+                    next: 'fas fa-chevron-right',
+                    today: 'far fa-calendar-check',
+                    clear: 'far fa-trash-alt',
+                    close: 'fas fa-times'
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
